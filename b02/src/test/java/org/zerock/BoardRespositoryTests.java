@@ -1,5 +1,6 @@
 package org.zerock;
 
+import java.util.Collection;
 import java.util.stream.IntStream;
 
 import org.junit.Test;
@@ -72,6 +73,17 @@ public class BoardRespositoryTests {
 	    //boardRepo.delete(1L);
 	    //2.x
 	    boardRepo.deleteById(1L);
+	    
+	    
+	  }
+	 @Test
+	  public void testByWriter() {
+
+	    Collection<Board> results = boardRepo.findByWriter("user00");
+
+	    results.forEach(
+	        board -> System.out.println(board)
+	    );
 	  }
 
 	
