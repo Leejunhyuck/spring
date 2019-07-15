@@ -9,5 +9,4 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 	
 	
 	
-	
 }
