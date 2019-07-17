@@ -1,12 +1,17 @@
 package org.zerock;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.zerock.domain.Board;
 import org.zerock.persistence.BoardRepository;
@@ -85,6 +90,47 @@ public class BoardRespositoryTests {
 	        board -> System.out.println(board)
 	    );
 	  }
+
+	 
+	 @Test
+	  public void testBnoOrderByPaging() {
+
+	    //Spring Boot 1.x
+	    //Pageable paging = new PageRequest(0, 10);
+	    //Spring Boot 2.x
+	    Pageable paging = PageRequest.of(0, 10);
+
+	    Collection<Board> results = boardRepo.findByBnoGreaterThanOrderByBnoDesc(0L, paging);
+	    results.forEach(board -> System.out.println(board));
+
+	  }
+	 
+	 @Test
+	  public void testBnoPagingSort() {
+
+	    Pageable paging = PageRequest.of(0, 10, Sort.Direction.ASC, "bno");
+
+	    Page<Board> result = boardRepo.findByBnoGreaterThan(0L, paging);
+	    
+	    System.out.println("PAGE SIZE: " + result.getSize());
+	    System.out.println("TOTAL PAGES: " + result.getTotalPages());
+	    System.out.println("TOTAL COUNT: " + result.getTotalElements());
+	    System.out.println("NEXT: " + result.nextPageable());
+	    
+	    List<Board> list = result.getContent();
+	    
+	    list.forEach(board -> System.out.println(board));
+	    
+	  }
+	 @Test
+	  public void testByTitle2Query( ){
+	    
+		 boardRepo.findByTitleQuery("17")
+	    .forEach(board -> System.out.println(board));
+	    
+	  }
+
+
 
 	
 }
